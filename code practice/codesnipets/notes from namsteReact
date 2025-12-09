@@ -1,0 +1,142 @@
+
+React  version I used was 18.2.0
+
+With useId > built in hook that creates a unique Id string which remains same throughout the rerenders
+
+
+Js
+Let vs const vs var : 
+temporial dead zone 
+let and const are block scoped and var is function scoped
+Hence var is hoisted and let and cost are in temporial dead zone 
+That means when execution context is created 
+Var is allocated memory in global space 
+But let and const are not in global scope 
+Hence if you try to use var before initiation you will get undefined error and for let and const you will get refence error as not defined
+
+Hoisting
+Closure
+	• function returning another function along with it's lexical scope which is smartly garbage collected 
+	• It forms a memory like structure 
+	• used for data hiding
+
+First class function 
+	•  function can be used as a variable 
+	• function can be passed as argument to another fn
+	• function can be returned from another function
+	
+Callback function
+	•  function that is passed to another function to be called later in it is a 
+	• Calback function
+ex setTimeout : takes a callback function and calls it after given time 
+	setTimeout(function(){ console.log("timer")} , 5000)
+	
+ 
+
+
+Eventlistner >> onclick 
+Eventloop
+
+web API: browser features accessible through window global object
+	• Settimeout 
+	• Dom API 
+	• Fetch()
+	• Local storage
+	• Console
+	• Location
+
+
+Currying
+Fetch () >> goes and request API call 
+Returns a promise we have to pass a call back function which will be excuted after request 
+
+
+Microtask que gets higher priority than call back que
+	• Starvation of task que/callbackque : if callback que doesn't get chance to execute callback que as Priority que has more tasks 
+
+
+Map , filter , reduce>>> Higher 
+	1. Map >> transform whole array eg>> squaring all elements
+	Goes through all ele and return a new array
+	const arr =[ 1, 4, 7]
+	arr.map((x)=> x*x)
+	
+	2. Filter>> filter value in array
+	Ex Filter all values that are > 4
+	const arr =[ 1, 4, 7]
+	arr.filter((x)=> x> 4)
+	
+	3. Reduce >> take all element and return a single element ex max value from array
+	const arr =[ 1, 4, 7]
+	Const op  = arr.reduce( function(acc, curr){
+	Acc= acc+ curr;
+	Return acc;
+	}, 0) 
+
+
+
+Promises:
+1. Before promise we used to depend on callback functions which would result in 1.) Callback Hell (Pyramid of doom) | 2.) Inversion of control 2. Inversion of control is overcome by using promise. 2.1) A promise is an object that represents eventual completion/failure of an asynchronous operation. 2.2) A promise has 3 states: pending | fulfilled | rejected. 2.3) As soon as promise is fulfilled/rejected => It updates the empty object which is assigned undefined in pending state. 2.4) A promise resolves only once and it is immutable. 2.5) Using .then() we can control when we call the cb(callback) function. 3. To avoid callback hell (Pyramid of doom) => We use promise chaining. This way our code expands vertically instead of horizontally. Chaining is done using '.then()' 4. A very common mistake that developers do is not returning a value during chaining of promises. Always remember to return a value. This returned value will be used by the next .then() 
+
+Example:
+
+function fetchData( shouldSucceed ) {
+return new Promise((resolve, reject) => {
+    if(!shouldSucceed) {
+        return reject("Error: Data fetch failed.");
+    }
+    setTimeout(() => {
+        resolve("Data fetched successfully!");
+    }, 1000);
+    
+})
+}
+fetchData(true)
+.then((data) => {
+    console.log(data);
+})
+.catch((error) => {
+    console.error(error);
+});
+
+
+Async Await: 
+	1. Async will aways return a promise 
+Even if you reurn a value from the asyn… then fun will wrap value in a promise and return promise
+
+Const p = new promise((resolve, reject)=>{
+Resolve("promise is resolved");
+});
+ async function getData(){
+Return p;
+}
+getData().then((res)=> consol.log(res))
+
+What is await 
+Async and await are used to handle promises in combination. >>
+Syntactical sugar >> gives redablity > and asyc execution look like structure to code
+
+Deep copy vs shallow copy :
+
+Shallow copy >> refrence passed>> change in copy causes changes in orinal >>
+Discouraged  
+Ways to create :  
+spread syntax (...), Object.assign(), and Array.prototype.slice().
+
+Deep copy>> value passed >> no effect on orinal value>>
+JSON.parse(JSON.stringify(object))
+
+, shallow copies can lead to unexpected mutations of the original state, which React might not detect, thus preventing re-renders. Deep copies ensure true immutability.
+
+
+
+
+
+React:
+Uses JSX >> js inside HTML
+
+Stateful :  behavior depends on state of component ex. counter. 
+Stateless :  behaier independent of state
+
+Controlled compo : has useState > forms handled by react
+Uncontrolled compo> simpler forms > uses useRef and ref> and accessed by .current.value
