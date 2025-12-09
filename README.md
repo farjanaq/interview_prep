@@ -856,7 +856,7 @@ Components:
 
  # codes
  
- 🔹 BASIC REACT PROBLEMS (1–15)
+ BASIC REACT PROBLEMS (1–15)
     1. Create a counter with increment, decrement, and reset.
     2. Create a toggle button to show/hide text.
     3. Bind an input field and display text live.
@@ -873,7 +873,7 @@ Components:
     14. Pass data parent → child using props.
     15. Create a reusable button component.
  
- 🔹 INTERMEDIATE REACT PROBLEMS (16–30)
+INTERMEDIATE REACT PROBLEMS (16–30)
     16. Create a modal open/close component.
     17. Create a dropdown using React state.
     18. Build a Todo app with add / delete / toggle complete.
@@ -890,7 +890,7 @@ Components:
     29. Star rating component.
     30. Render lists with unique keys using IDs.
  
- 🔹 ADVANCED REACT PROBLEMS (31–40)
+ADVANCED REACT PROBLEMS (31–40)
     31. Infinite scroll component.
     32. Lazy load images on scroll.
     33. Controlled + uncontrolled form inputs.
