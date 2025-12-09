@@ -1,0 +1,17 @@
+
+
+
+asked for internal interview capgemini:
+ ____________________________________
+
+# remove duplicates and return greeting string 
+const arr = ['Good', 'day', 'day', 'bye', 'bye']
+  const arruniq = [...new Set(arr)]
+
+   const greeting = arruniq.reduce((acc, curr) => { 
+     acc = acc + " " + curr;
+    return acc
+  }, '')
+
+  console.log(greeting );
+  ____________________________________
