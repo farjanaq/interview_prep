@@ -7,9 +7,8 @@ const Todo= ()=>
 const [todos, setTodos] = useState(['learn React']);
 const [toDo, setToDo] = useState('');
 
-   const handleDelete = (x) => { 
-    const u = todos.filter((_, e) => { x !== e })
-    setTodos([...u])
+  const handleDelete = (x) => { 
+   setTodos( todos.filter(( e) =>  x !== e ));
   }
   
 
@@ -18,8 +17,8 @@ const [toDo, setToDo] = useState('');
     <input value={toDo} onChange={(e) => setToDo(e.target.value)}></input>
     <button onClick={ () => setTodos([...todos, toDo])}>add</button>
     <ul>
-      {todos.map((e) => { 
-        return <li onClick={handleDelete(e)}> {e}</li>
+      {todos.map((p) => { 
+        return <li onClick={()=>handleDelete(p)}> {p}</li>
       }) }
     </ul>
   </div>
