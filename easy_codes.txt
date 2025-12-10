@@ -1,0 +1,431 @@
+Basic React Problems Solutions (1-15)
+1. Create a counter with increment, decrement, and reset. 
+This uses the useState hook to manage the count state. 
+jsx
+import React, { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+};
+
+export default Counter;
+Use code with caution.
+
+ 
+2. Create a toggle button to show/hide text. 
+Uses a boolean state to conditionally render an element. 
+jsx
+import React, { useState } from 'react';
+
+const ToggleText = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setIsVisible(!isVisible)}>
+        {isVisible ? 'Hide Text' : 'Show Text'}
+      </button>
+      {isVisible && <p>This is the toggled text!</p>}
+    </div>
+  );
+};
+
+export default ToggleText;
+Use code with caution.
+
+3. Bind an input field and display text live. 
+Uses useState to track the input's value as it changes with the onChange event. 
+jsx
+import React, { useState } from 'react';
+
+const LiveInput = () => {
+  const [text, setText] = useState('');
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type something..."
+      />
+      <p>Live Text: {text}</p>
+    </div>
+  );
+};
+
+export default LiveInput;
+Use code with caution.
+
+4. Add items to a list. 
+Manages an array state and adds new items on form submission. 
+jsx
+import React, { useState } from 'react';
+
+const AddToList = () => {
+  const [items, setItems] = useState(['Apple', 'Banana']);
+  const [newItem, setNewItem] = useState('');
+
+  const addItem = (e) => {
+    e.preventDefault();
+    if (newItem.trim()) {
+      setItems([...items, newItem.trim()]);
+      setNewItem('');
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={addItem}>
+        <input
+          type="text"
+          value={newItem}
+          onChange={(e) => setNewItem(e.target.value)}
+          placeholder="Add a new item"
+        />
+        <button type="submit">Add Item</button>
+      </form>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li> // Use a real ID in a real app
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default AddToList;
+Use code with caution.
+
+5. Delete an item from a list. 
+Uses the array filter method to remove an item based on its identifier. 
+jsx
+import React, { useState } from 'react';
+
+const DeleteFromList = () => {
+  const [items, setItems] = useState(['Item A', 'Item B', 'Item C']);
+
+  const deleteItem = (itemToDelete) => {
+    setItems(items.filter(item => item !== itemToDelete));
+  };
+
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item}>
+          {item}
+          <button onClick={() => deleteItem(item)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default DeleteFromList;
+Use code with caution.
+
+6. Edit an item in a list. 
+Uses the array map method to update a specific item. (This example is simplified; a full implementation involves managing input fields for editing.) 
+jsx
+import React, { useState } from 'react';
+
+const EditList = () => {
+  const [items, setItems] = useState(['First', 'Second', 'Third']);
+
+  const editItem = (indexToEdit, newValue) => {
+    const updatedItems = items.map((item, index) =>
+      index === indexToEdit ? newValue : item
+    );
+    setItems(updatedItems);
+  };
+
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>
+          {item}
+          <button onClick={() => editItem(index, `Updated ${item}`)}>Edit</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default EditList;
+Use code with caution.
+
+7. Fetch data from an API and display it. 
+Uses the useEffect hook to fetch data when the component mounts and useState to store the data and a potential error. 
+jsx
+import React, { useState, useEffect } from 'react';
+
+const FetchData = () => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch('api.open-meteo.com')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => setError(error));
+  }, []);
+
+  if (error) return <p>Error: {error.message}</p>;
+  if (!data) return <p>Loading data...</p>;
+
+  return (
+    <div>
+      <h2>Weather Data (Berlin):</h2>
+      <p>Temperature: {data.current_weather.temperature}°C</p>
+      <p>Wind Speed: {data.current_weather.windspeed} km/h</p>
+    </div>
+  );
+};
+
+export default FetchData;
+Use code with caution.
+
+8. Filter a list as the user types (search). 
+Combines an input field for search text and a state-managed list, using filter to dynamically update the displayed results. 
+jsx
+import React, { useState } from 'react';
+
+const FilterList = () => {
+  const initialItems = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredItems = initialItems.filter(item =>
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search items..."
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <ul>
+        {filteredItems.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default FilterList;
+Use code with caution.
+
+9. Sort a list ascending/descending. 
+Uses a state to manage the sort direction and sorts a copy of the list for rendering. 
+jsx
+import React, { useState } from 'react';
+
+const SortList = () => {
+  const [items, setItems] = useState(['Banana', 'Apple', 'Date', 'Cherry']);
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
+
+  const sortItems = () => {
+    const sorted = [...items].sort();
+    if (sortOrder === 'desc') {
+      sorted.reverse();
+    }
+    setItems(sorted);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  return (
+    <div>
+      <button onClick={sortItems}>Sort ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})</button>
+      <ul>
+        {items.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default SortList;
+Use code with caution.
+
+10. Display conditional UI based on boolean state. 
+Uses the logical && operator or the ternary operator (? :) for conditional rendering. 
+jsx
+import React, { useState } from 'react';
+
+const ConditionalUI = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
+        {isLoggedIn ? 'Log Out' : 'Log In'}
+      </button>
+      {isLoggedIn ? (
+        <p>Welcome back, user!</p>
+      ) : (
+        <p>Please log in to continue.</p>
+      )}
+    </div>
+  );
+};
+
+export default ConditionalUI;
+Use code with caution.
+
+11. Show a loading spinner during API fetch. 
+Combines useState for data, error, and loading status, managing the UI based on the isLoading boolean. 
+jsx
+import React, { useState, useEffect } from 'react';
+
+const LoadingSpinner = () => {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch('api.open-meteo.com')
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data) return <p>No data found.</p>;
+
+  return (
+    <div>
+      <p>Data loaded successfully!</p>
+    </div>
+  );
+};
+
+export default LoadingSpinner;
+Use code with caution.
+
+12. Create a simple form with validation. 
+Manages form inputs and validation messages in the state, displaying errors conditionally. 
+jsx
+import React, { useState } from 'react';
+
+const ValidatedForm = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email.includes('@')) {
+      setError('Please enter a valid email address.');
+    } else {
+      setError('');
+      alert(`Form submitted with email: ${email}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email"
+      />
+      <button type="submit">Submit</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </form>
+  );
+};
+
+export default ValidatedForm;
+Use code with caution.
+
+13. Pass data child → parent using props. 
+The parent passes a function (callback) to the child, which the child calls to send data back up. 
+jsx
+// Parent Component
+const ParentComponent = () => {
+  const [message, setMessage] = useState('');
+  const handleChildData = (data) => setMessage(data);
+
+  return (
+    <div>
+      <p>Message from Child: {message}</p>
+      <ChildComponent onDataSend={handleChildData} />
+    </div>
+  );
+};
+
+// Child Component
+const ChildComponent = ({ onDataSend }) => {
+  return (
+    <button onClick={() => onDataSend('Hello Parent!')}>
+      Send Data to Parent
+    </button>
+  );
+};
+Use code with caution.
+
+14. Pass data parent → child using props. 
+The parent passes data as props directly to the child component. 
+jsx
+// Parent Component
+const ParentComponent = () => {
+  const data = 'Hello Child!';
+  return <ChildComponent message={data} />;
+};
+
+// Child Component
+const ChildComponent = (props) => {
+  return <p>Message from Parent: {props.message}</p>;
+};
+Use code with caution.
+
+15. Create a reusable button component. 
+Defines a component that accepts props for customization (e.g., onClick handler, children for text). 
+jsx
+// Reusable Button Component
+const ReusableButton = ({ onClick, children, variant }) => {
+  const baseStyle = { padding: '10px 15px', border: 'none', cursor: 'pointer' };
+  const styles = {
+    primary: { ...baseStyle, backgroundColor: 'blue', color: 'white' },
+    secondary: { ...baseStyle, backgroundColor: 'gray', color: 'white' },
+  };
+  
+  return (
+    <button style={styles[variant] || baseStyle} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+// Usage Example
+const ButtonExample = () => {
+  return (
+    <div>
+      <ReusableButton onClick={() => alert('Primary Clicked!')} variant="primary">
+        Primary Button
+      </ReusableButton>
+      <ReusableButton onClick={() => alert('Secondary Clicked!')} variant="secondary">
+        Secondary Button
+      </ReusableButton>
+    </div>
+  );
+};
+Use code with caution.
+
+
+
+
